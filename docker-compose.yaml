@@ -1,0 +1,9 @@
+services:
+  bot:
+    container_name: bot
+    build:
+      context: src/
+    environment:
+      NODE_ENV: src/.env
+    ports:
+      - "3000:3000"
