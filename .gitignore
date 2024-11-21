@@ -73,7 +73,7 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-bot/.env
+src/.env
 .env.development.local
 .env.test.local
 .env.production.local
@@ -131,3 +131,6 @@ dist
 
 # ide config
 .idea/
+
+# package lock
+src/package-lock.json
