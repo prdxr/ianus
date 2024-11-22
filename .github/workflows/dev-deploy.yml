@@ -15,14 +15,8 @@ jobs:
       - name: Install NPM
         run: sudo apt-get install nodejs npm -y
 
-      - name: Install Lint
-        run: sudo npm install -g jshint
-
-      - name: Check directory
-        run: pwd && ls && ls src
-
-      - name: Lint
-        run: sudo jshint ./src/**/*.js
+      - name: Linter
+        uses: moneyforward/jshint-action@v0
 
   deploy:
     runs-on: ubuntu-latest
