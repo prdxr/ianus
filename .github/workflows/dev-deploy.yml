@@ -18,6 +18,9 @@ jobs:
       - name: Install Lint
         run: sudo npm install -g jshint
 
+      - name: Check directory
+        run: pwd && ls
+
       - name: Lint
         run: jshint src/**/*.js
 
