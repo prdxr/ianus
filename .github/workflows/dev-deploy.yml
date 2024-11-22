@@ -5,8 +5,25 @@ on:
     branches: [dev]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install NPM
+        run: apt-get install nodejs npm -y
+
+      - name: Install Lint
+        run: npm install -g jshint
+
+      - name: Lint
+        run: jshint src/**/*.js
+
   deploy:
     runs-on: ubuntu-latest
+    needs: [ build ]
 
     steps:
       - name: Checkout repository
