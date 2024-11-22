@@ -131,6 +131,3 @@ dist
 
 # ide config
 .idea/
-
-# package lock
-src/package-lock.json
