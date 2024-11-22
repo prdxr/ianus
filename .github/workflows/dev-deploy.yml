@@ -22,7 +22,7 @@ jobs:
         run: pwd && ls && ls src
 
       - name: Lint
-        run: jshint ./src/**/*.js
+        run: sudo jshint ./src/**/*.js
 
   deploy:
     runs-on: ubuntu-latest
