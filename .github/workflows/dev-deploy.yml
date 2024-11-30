@@ -23,4 +23,5 @@ jobs:
             cd /srv/ianus
             git checkout dev
             git pull origin dev
-            node src/main.js
+            npm install
+            node main.js
