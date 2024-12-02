@@ -1,10 +1,10 @@
-require('dotenv').config();
-const { Telegraf } = require('telegraf');
-const { message } = require('telegraf/filters');
-// const {exec} = require("child_process");
+import dotenv from "dotenv";
+import { Telegraf } from "telegraf";
+import { message } from "telegraf/filters";
 
 import { rebootServer, shutdownServer, analyzeServer } from "./src/module-management.js";
 
+dotenv.config();
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 // placeholder for tests
