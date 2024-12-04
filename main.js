@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import { Telegraf } from "telegraf";
 import { message } from "telegraf/filters";
 
-import { rebootServer, shutdownServer, analyzeServer } from "./src/module-management.js";
+import { rebootServer, shutdownServer, analyzeServer, executeCustomCommand } from "./src/module-management.js";
 
 dotenv.config();
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -26,6 +26,10 @@ bot.command('shutdown', (ctx) => {
 
 bot.command('stats', (ctx) => {
     analyzeServer(ctx);
+});
+
+bot.command('cmd', (ctx) => {
+    executeCustomCommand(ctx, ctx.message.text.slice(5));
 });
 
 

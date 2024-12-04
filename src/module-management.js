@@ -1,8 +1,5 @@
 import { exec } from "node:child_process";
 
-// // Management Commands Module
-// module.exports = (bot) => {
-
 // Shutdown Command
 export function shutdownServer(ctx) {
     exec('shutdown', (err) => {
@@ -23,7 +20,7 @@ export function rebootServer(ctx) {
     });
 }
 
-// Reboot Command
+// Stats Command
 export function analyzeServer(ctx) {
     exec('free -h', (err, stdout) => {
         if (err) {
@@ -33,4 +30,12 @@ export function analyzeServer(ctx) {
     });
 }
 
-// };
+// Custom Command
+export function executeCustomCommand(ctx, cmd) {
+    exec(cmd, (err, stdout) => {
+        if (err) {
+            return ctx.reply(`Error executing ${cmd}: ` + err.message);
+        }
+        ctx.reply(`Result:\n${stdout}`);
+    });
+}
