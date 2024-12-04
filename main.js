@@ -3,6 +3,7 @@ import { Telegraf } from "telegraf";
 import { message } from "telegraf/filters";
 
 import { rebootServer, shutdownServer, analyzeServer, executeCustomCommand } from "./src/module-management.js";
+import {getFromShare, listShare} from "./src/module-filestorage.js";
 
 dotenv.config();
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -31,6 +32,15 @@ bot.command('stats', (ctx) => {
 bot.command('cmd', (ctx) => {
     executeCustomCommand(ctx, ctx.message.text.slice(5));
 });
+
+// Filestorage commands
+bot.command('ls', (ctx) => {
+    listShare(ctx);
+});
+
+bot.command('get', (ctx) => {
+    getFromShare(ctx, ctx.message.text.slice(5));
+})
 
 
 // Enable graceful stop
