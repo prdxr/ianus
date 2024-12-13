@@ -24,4 +24,4 @@ jobs:
             git checkout dev
             git pull origin dev
             npm install
-            node main.js
+            pm2 start main.js --name "ianus-bot" --update-env
