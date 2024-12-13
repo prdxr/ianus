@@ -4,6 +4,7 @@ import { message } from "telegraf/filters";
 
 import { rebootServer, shutdownServer, analyzeServer, executeCustomCommand } from "./src/module-management.js";
 import {getFromShare, listShare, postToShare} from "./src/module-filestorage.js";
+import { wakeUpComputer } from "./src/module-network.js"
 
 dotenv.config();
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -55,6 +56,11 @@ bot.on('document', (ctx) => {
     waitForFile = false;
     let fileId = ctx.message.document.file_id;
     postToShare(ctx, fileId);
+})
+
+// Network commands
+bot.command('wake_pc', (ctx) => {
+    wakeUpComputer(process.env.HOME_PC_MAC);
 })
 
 // // Enable graceful stop

@@ -21,6 +21,7 @@
     "sandwich-stream": "^2.0.2",
     "telegraf": "^4.16.3",
     "tr46": "^0.0.3",
+    "wake_on_lan": "^1.0.0",
     "webidl-conversions": "^3.0.1",
     "whatwg-url": "^5.0.0"
   },
