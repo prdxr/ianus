@@ -2,7 +2,7 @@ import { exec } from "node:child_process";
 
 // Shutdown Command
 export function shutdownServer(ctx) {
-    exec('shutdown', (err) => {
+    exec('sudo shutdown now', (err) => {
         if (err) {
             return ctx.reply('Error shutting down: ' + err.message);
         }
@@ -12,7 +12,7 @@ export function shutdownServer(ctx) {
 
 // Reboot Command
 export function rebootServer(ctx) {
-    exec('reboot', (err) => {
+    exec('sudo reboot', (err) => {
         if (err) {
             return ctx.reply('Error rebooting: ' + err.message);
         }
