@@ -4,7 +4,8 @@ import { message } from "telegraf/filters";
 
 import { rebootServer, shutdownServer, analyzeServer, executeCustomCommand } from "./src/module-management.js";
 import {getFromShare, listShare, postToShare} from "./src/module-filestorage.js";
-import { wakeUpComputer } from "./src/module-network.js"
+import { wakeUpComputer, scanNetwork } from "./src/module-network.js"
+import { readSensor } from "./src/module-sensors.js";
 
 dotenv.config();
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -63,6 +64,25 @@ bot.command('wake_pc', (ctx) => {
     wakeUpComputer(process.env.HOME_PC_MAC);
 })
 
-// // Enable graceful stop
-// process.once('SIGINT', () => bot.stop('SIGINT'));
-// process.once('SIGTERM', () => bot.stop('SIGTERM'))
+bot.command('scan', (ctx) => {
+    scanNetwork(process.env.HOME_PC_MAC);
+})
+
+// Sensors commands
+bot.command('dht', async (ctx) => {
+    try {
+        const data = await readSensor();
+        ctx.reply(
+            `Temperature: ${data.temperature.toFixed(1)}°C
+            \nHumidity: ${data.humidity.toFixed(1)}%`
+        );
+    } catch (error) {
+        ctx.reply('Failed to read from sensor. Please try again later.');
+        console.error('Sensor read error:', error);
+    }
+});
+
+
+// Enable graceful stop
+process.once('SIGINT', () => bot.stop('SIGINT'));
+process.once('SIGTERM', () => bot.stop('SIGTERM'))
