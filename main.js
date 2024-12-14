@@ -1,11 +1,10 @@
 import dotenv from 'dotenv';
 import { Telegraf } from 'telegraf';
-import { message } from 'telegraf/filters';
 
 import { rebootServer, shutdownServer, analyzeServer, executeCustomCommand } from './src/module-management.js';
 import {getFromShare, listShare, postToShare} from './src/module-filestorage.js';
 import { wakeUpComputer, scanNetwork } from './src/module-network.js';
-import {readDhtSensor, pingBuzzer, cleanupBuzzer} from './src/module-sensors.js';
+// import {readDhtSensor, pingBuzzer, cleanupBuzzer} from './src/module-sensors.js';
 
 dotenv.config();
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -103,7 +102,7 @@ bot.command('scan', checkOwnership((ctx) => {
 }));
 // -----
 
-
+/*
 // sensors commands
 bot.command('dht', async (ctx) => {
     try {
@@ -139,3 +138,4 @@ const shutdown = () => {
 // enable graceful stop
 process.once('SIGINT', () => shutdown);
 process.once('SIGTERM', () => shutdown);
+*/
