@@ -14,6 +14,26 @@ let waitForFile = false;
 bot.launch();
 
 
+// help command
+bot.command('help', (ctx) => {
+   let helpMessage = 'my commands:\n\n' +
+       '*Management section*\n' +
+       '\\- `/reboot` \\- reboot the server\n' +
+       '\\- `/shutdown` \\- shutdown the server\n' +
+       '\\- `/stats` \\- get server memory status\n' +
+       '\\- `/cmd {command}` \\- execute custom bash command on server\n' +
+       '*File storage section*\n' +
+       '\\- `/ls` \\- print share folder contents\n' +
+       '\\- `/get {filename}` \\- download file by filename \\(from ls\\)\n' +
+       '\\- `/post` \\- initiate file upload sequence\\. You will be prompted with a file right after\n' +
+       '*Network section*\n' +
+       '\\- `/wake_pc` \\- wake up home pc\n' +
+       '*Sensors section*\n' +
+       '\\- `/dht` \\- print current server room temperature and humidity\n';
+   ctx.replyWithMarkdownV2(helpMessage);
+});
+
+
 // management commands
 bot.command('reboot', (ctx) => {
     rebootServer(ctx);
