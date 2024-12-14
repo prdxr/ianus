@@ -98,7 +98,7 @@ bot.command('wake_pc', checkOwnership((ctx) => {
 
 // !!! placeholder
 bot.command('scan', checkOwnership((ctx) => {
-    scanNetwork(process.env.HOME_PC_MAC);
+    scanNetwork(ctx);
 }));
 // -----
 
