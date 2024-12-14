@@ -1,7 +1,7 @@
-import { exec } from "node:child_process";
-import fs from "fs";
-import path from "path";
-import axios from "axios";
+import { exec } from 'node:child_process';
+import fs from 'fs';
+import path from 'path';
+import axios from 'axios';
 
 // list share command
 export function listShare(ctx) {
@@ -36,13 +36,9 @@ export function postToShare(ctx, fileId) {
         ctx.message.document.file_name
     );
 
-    console.log(fileId, ctx.telegram.getFileLink(fileId));
-
-
     ctx.telegram.getFileLink(fileId).then((link) => {
-        console.log(link);
         let linkStr = link.href;
-        console.log(`link str: ${linkStr}`);
+
         axios({
             url: linkStr,
             method: 'get',
@@ -59,11 +55,11 @@ export function postToShare(ctx, fileId) {
                     });
             });
         }).catch(error => {
-            console.error("Axios request error: ", error);
-            ctx.reply("Failed to download the file.");
+            console.error('Axios request error: ', error);
+            ctx.reply('Failed to download the file.');
         });
     }).catch(err => {
-        console.error("Get file link error: ", err);
-        ctx.reply("Failed to retrieve the file link.");
+        console.error('Get file link error: ', err);
+        ctx.reply('Failed to retrieve the file link.');
     });
 }

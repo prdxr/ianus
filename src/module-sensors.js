@@ -1,11 +1,10 @@
 import dht from 'node-dht-sensor';
 
-// Configure the DHT sensor
 const sensorType = 11; // DHT11
-const gpioPin = process.env.DHT_PIN; // GPIO pin number where Data pin is connected
+const gpioPin = process.env.DHT_PIN;
 
-// Function to read sensor data
-export function readSensor() {
+// read humidity-temperature function
+export function readDhtSensor() {
     return new Promise((resolve, reject) => {
         dht.read(sensorType, gpioPin, (err, temperature, humidity) => {
             if (err) {

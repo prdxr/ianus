@@ -1,25 +1,20 @@
-import dotenv from "dotenv";
-import { Telegraf } from "telegraf";
-import { message } from "telegraf/filters";
+import dotenv from 'dotenv';
+import { Telegraf } from 'telegraf';
+import { message } from 'telegraf/filters';
 
-import { rebootServer, shutdownServer, analyzeServer, executeCustomCommand } from "./src/module-management.js";
-import {getFromShare, listShare, postToShare} from "./src/module-filestorage.js";
-import { wakeUpComputer, scanNetwork } from "./src/module-network.js"
-import { readSensor } from "./src/module-sensors.js";
+import { rebootServer, shutdownServer, analyzeServer, executeCustomCommand } from './src/module-management.js';
+import {getFromShare, listShare, postToShare} from './src/module-filestorage.js';
+import { wakeUpComputer, scanNetwork } from './src/module-network.js';
+import { readDhtSensor } from './src/module-sensors.js';
 
 dotenv.config();
 const bot = new Telegraf(process.env.BOT_TOKEN);
 let waitForFile = false;
 
-// placeholder for tests
-bot.start((ctx) => ctx.reply('Welcome'));
-bot.help((ctx) => ctx.reply('Send me a sticker'));
-bot.on(message('sticker'), (ctx) => ctx.reply('👍'));
-bot.hears('hi', (ctx) => ctx.reply('Hey there'));
-
 bot.launch();
 
-// Management commands
+
+// management commands
 bot.command('reboot', (ctx) => {
     rebootServer(ctx);
 });
@@ -35,8 +30,10 @@ bot.command('stats', (ctx) => {
 bot.command('cmd', (ctx) => {
     executeCustomCommand(ctx, ctx.message.text.slice(5));
 });
+// -----
 
-// Filestorage commands
+
+// file storage commands
 bot.command('ls', (ctx) => {
     listShare(ctx);
 });
@@ -51,6 +48,7 @@ bot.command('post', (ctx) => {
     waitForFile = true;
 })
 
+// file listener
 bot.on('document', (ctx) => {
     if (!waitForFile) { return }
 
@@ -58,20 +56,25 @@ bot.on('document', (ctx) => {
     let fileId = ctx.message.document.file_id;
     postToShare(ctx, fileId);
 })
+// -----
 
-// Network commands
+
+// network commands
 bot.command('wake_pc', (ctx) => {
-    wakeUpComputer(process.env.HOME_PC_MAC);
+    wakeUpComputer(process.env.HOME_PC_MAC).then((result) => { ctx.reply(result) });
 })
 
+// !!! placeholder
 bot.command('scan', (ctx) => {
     scanNetwork(process.env.HOME_PC_MAC);
 })
+// -----
 
-// Sensors commands
+
+// sensors commands
 bot.command('dht', async (ctx) => {
     try {
-        const data = await readSensor();
+        const data = await readDhtSensor();
         ctx.reply(
             `Temperature: ${data.temperature.toFixed(1)}°C
             \nHumidity: ${data.humidity.toFixed(1)}%`
@@ -81,8 +84,9 @@ bot.command('dht', async (ctx) => {
         console.error('Sensor read error:', error);
     }
 });
+// -----
 
 
-// Enable graceful stop
+// enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'))

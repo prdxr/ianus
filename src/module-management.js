@@ -1,6 +1,6 @@
-import { exec } from "node:child_process";
+import { exec } from 'node:child_process';
 
-// Shutdown Command
+// shutdown command
 export function shutdownServer(ctx) {
     exec('sudo shutdown now', (err) => {
         if (err) {
@@ -10,7 +10,7 @@ export function shutdownServer(ctx) {
     });
 }
 
-// Reboot Command
+// reboot command
 export function rebootServer(ctx) {
     exec('sudo reboot', (err) => {
         if (err) {
@@ -20,7 +20,7 @@ export function rebootServer(ctx) {
     });
 }
 
-// Stats Command
+// system stats command
 export function analyzeServer(ctx) {
     exec('free -h', (err, stdout) => {
         if (err) {
@@ -30,7 +30,7 @@ export function analyzeServer(ctx) {
     });
 }
 
-// Custom Command
+// custom command execution
 export function executeCustomCommand(ctx, cmd) {
     exec(cmd, (err, stdout) => {
         if (err) {

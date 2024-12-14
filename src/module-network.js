@@ -6,7 +6,7 @@ export function wakeUpComputer(macAddress) {
     return new Promise((resolve, reject) => {
         wake(macAddress, (error) => {
             if (error) {
-                console.error("Failed to send WOL packet: ", error);
+                console.error('Failed to send WOL packet: ', error);
                 reject(error);
             } else {
                 console.log(`WOL packet sent to ${macAddress}`);
@@ -26,7 +26,7 @@ function getLocalSubnet() {
             }
         }
     }
-    throw new Error("Unable to determine local subnet");
+    throw new Error('Unable to determine local subnet');
 }
 
 export function scanNetwork() {
