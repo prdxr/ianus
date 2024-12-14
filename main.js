@@ -5,7 +5,7 @@ import { message } from 'telegraf/filters';
 import { rebootServer, shutdownServer, analyzeServer, executeCustomCommand } from './src/module-management.js';
 import {getFromShare, listShare, postToShare} from './src/module-filestorage.js';
 import { wakeUpComputer, scanNetwork } from './src/module-network.js';
-import { readDhtSensor } from './src/module-sensors.js';
+import {readDhtSensor, pingBuzzer, cleanupBuzzer} from './src/module-sensors.js';
 
 dotenv.config();
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -109,17 +109,33 @@ bot.command('dht', async (ctx) => {
     try {
         const data = await readDhtSensor();
         ctx.reply(
-            `Temperature: ${data.temperature.toFixed(1)}°C
-            \nHumidity: ${data.humidity.toFixed(1)}%`
+            `Temperature: ${data.temperature}°C
+            \nHumidity: ${data.humidity}%`
         );
     } catch (error) {
         ctx.reply('Failed to read from sensor. Please try again later.');
         console.error('Sensor read error:', error);
     }
 });
+
+bot.command('ping', async (ctx) => {
+    try {
+        const result = await pingBuzzer();
+        ctx.reply(result);
+    } catch (error) {
+        ctx.reply()
+    }
+})
 // -----
 
 
+const shutdown = () => {
+    console.log('Shutting down bot...');
+    cleanupBuzzer();
+    bot.stop('SIGTERM');
+    process.exit();
+}
+
 // enable graceful stop
-process.once('SIGINT', () => bot.stop('SIGINT'));
-process.once('SIGTERM', () => bot.stop('SIGTERM'))
+process.once('SIGINT', () => shutdown);
+process.once('SIGTERM', () => shutdown);
